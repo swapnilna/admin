@@ -9,10 +9,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useLocalStorage(
-    "isAuthenticated",
-    false
-  );
+  const [isAuthenticated, setIsAuthenticated] = useLocalStorage("isAuthenticated", false);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>

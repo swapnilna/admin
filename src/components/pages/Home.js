@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
-import { useAuth } from "../auth/authContext";
+import { useAuth } from "../../auth/authContext";
 
 const Home = () => {
   const { setIsAuthenticated } = useAuth();
@@ -10,6 +10,7 @@ const Home = () => {
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("state");
   };
 
   return (
@@ -27,6 +28,14 @@ const Home = () => {
             }}
           >
             Dashboard
+          </button>
+           <button
+            className="primaryButton"
+            onClick={() => {
+              navigate("/user-profile");
+            }}
+          >
+            User Profile
           </button>
           <button className="logoutButton" onClick={handleLogout}>
             Logout
