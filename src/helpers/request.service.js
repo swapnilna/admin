@@ -44,4 +44,23 @@ export default class Request {
 
     return axios.post(fullUrl, body, options);
   };
+
+  static put = (url, body) => {
+    const options = {
+      headers: { Accept: "application/json" },
+    };
+    const fullUrl = `${this.apiUrl}${url}`;
+
+    return axios.put(fullUrl, body, options);
+  };
+
+  static delete = (url) => {
+    const fullUrl = `${this.apiUrl}${url}`;
+
+    const options = {
+      headers: { Accept: "application/json" },
+    };
+
+    return axios.delete(fullUrl, options);
+  };
 }

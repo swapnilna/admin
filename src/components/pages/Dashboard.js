@@ -1,18 +1,18 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect } from "react"; 
 
-import { useAuth } from "../../auth/authContext"; 
+import { logout } from "../../store/slices/authSlice";
 
 import Request from "../../helpers/request.service";
 
-const Dashboard = () => {
-  const { setIsAuthenticated } = useAuth();
+const Dashboard = () => { 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("state");
+    dispatch(logout());
   };
 
   useEffect(() => {
@@ -24,10 +24,10 @@ const Dashboard = () => {
   const getUser = (id) => {
     Request.get(`/users/${id}`)
       .then((response) => {
-        console.log("user id 1", response.data);
+        console.log(`user id ${id}`, response.data);
       })
       .catch((error) => {
-        console.log("Error fetching users:", error); // This will log any errors that occur during the fetch
+        console.log("Error fetching users:", error);
       });
   };
 
@@ -38,7 +38,7 @@ const Dashboard = () => {
         console.log("selected user", response.data);
       })
       .catch((error) => {
-        console.log("Error fetching users:", error); // This will log any errors that occur during the fetch
+        console.log("Error fetching users:", error);
       });
   };
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
         console.log("all users", response.data.users);
       })
       .catch((error) => {
-        console.log("Error fetching users:", error); // This will log any errors that occur during the fetch
+        console.log("Error fetching users:", error);
       });
   };
 

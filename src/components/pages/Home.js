@@ -1,23 +1,26 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
-import { useAuth } from "../../auth/authContext";
+import { logout } from "../../store/slices/authSlice";
 
 const Home = () => {
-  const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("state");
+    dispatch(logout());
   };
 
   return (
     <>
       <div className="title">Home Page</div>
       <div className="center">
-        <img src="/img/logo192.png" alt="Logo" style={{width: '80px', height: '80px'}} />
+        <img
+          src="/img/logo192.png"
+          alt="Logo"
+          style={{ width: "80px", height: "80px" }}
+        />
       </div>
       <div className="homePageContainer">
         <div>
@@ -29,13 +32,13 @@ const Home = () => {
           >
             Dashboard
           </button>
-           <button
+          <button
             className="primaryButton"
             onClick={() => {
               navigate("/user-profile");
             }}
           >
-            User Profile
+            Users List
           </button>
           <button className="logoutButton" onClick={handleLogout}>
             Logout

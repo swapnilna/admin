@@ -1,0 +1,41 @@
+/* UserList.css */
+.user-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-name {
+  font-weight: bold;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.action-button {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+  

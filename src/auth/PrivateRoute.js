@@ -1,10 +1,9 @@
 import { Navigate, useLocation } from "react-router-dom";
-
-import { useAuth } from "./authContext";
+import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ children }) => {
-  let { isAuthenticated } = useAuth();
-  let location = useLocation();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  let location = useLocation(); 
 
   return isAuthenticated ? (
     children

@@ -1,4 +1,3 @@
-// authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Request from "../../helpers/request.service";
 
@@ -20,21 +19,37 @@ export const loginUser = createAsyncThunk(
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: [], status: "idle", error: null },
-  reducers: {},
+  initialState: {
+    user: [],
+    authToken: "",
+    isAuthenticated: false,
+    status: "idle",
+    error: null,
+  },
+  reducers: {
+    logout: (state) => {
+       // Perform any cleanup logic here
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
       state.status = "loading";
+      state.isAuthenticated = false;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.user = action.payload;
+      state.authToken = action?.payload?.token;
+      state.isAuthenticated = true;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
+      state.isAuthenticated = false;
     });
   },
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

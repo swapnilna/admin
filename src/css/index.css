@@ -41,3 +41,14 @@ button:hover {
   background-color: #dc3545;
   color: white;
 }
+
+.loaderDivParent {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.loaderDivCenter {
+  color: #007bff;
+  font-weight: bold;
+}

@@ -1,21 +1,25 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import React, { Suspense } from "react";
 
-import { AuthProvider } from "./auth/authContext";
+import "react-toastify/dist/ReactToastify.css";
+
+import Loader from "../src/components/common/Loader";
 import PrivateRoute from "./auth/PrivateRoute";
 
-const Dashboard = React.lazy(() => import('./components/pages/Dashboard'));
-const Home = React.lazy(() => import('./components/pages/Home'));
-const Login = React.lazy(() => import('./components/pages/Login'));
-const NotFound = React.lazy(() => import('./components/pages/NotFound'));
-const Test = React.lazy(() => import('./components/pages/Test'));
-const UserProfile = React.lazy(() => import('./components/pages/UserProfile'));
+const Dashboard = React.lazy(() => import("./components/pages/Dashboard"));
+const Home = React.lazy(() => import("./components/pages/Home"));
+const Login = React.lazy(() => import("./components/pages/Login"));
+const NotFound = React.lazy(() => import("./components/pages/NotFound"));
+const Test = React.lazy(() => import("./components/pages/Test"));
+const UserProfile = React.lazy(() => import("./components/pages/UserProfile"));
 
 function App() {
   return (
-    <AuthProvider>
+    <>
+      <ToastContainer />
       <Router>
-        <Suspense fallback={<div> Loading..</div>}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route
               exact
@@ -51,7 +55,7 @@ function App() {
           </Routes>
         </Suspense>
       </Router>
-    </AuthProvider>
+    </>
   );
 }
 

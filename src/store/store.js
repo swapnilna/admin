@@ -1,6 +1,6 @@
-// store.js
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./slices/authSlice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import authReducer, { logout } from "./slices/authSlice";
+import usersReducer from "./slices/usersSlice";
 let persistedState = {};
 
 try {
@@ -9,9 +9,28 @@ try {
   console.error("Error reading localStorage", error);
 }
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
+const combinedReducer = combineReducers({
+  auth: authReducer,
+  users: usersReducer,
+  // Add other reducers as needed
+});
+
+let store = configureStore({
+  reducer: (state, action) => {
+    // Logout action
+    if (logout.match(action)) {
+      let newState = { ...state };
+      // Reset the state or part of the state
+      newState.auth = {
+        user: [],
+        authToken: "",
+        isAuthenticated: false,
+        status: "idle",
+        error: null,
+      };
+      return newState;
+    }
+    return combinedReducer(state, action);
   },
   preloadedState: persistedState,
 });

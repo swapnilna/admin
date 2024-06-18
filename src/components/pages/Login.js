@@ -2,13 +2,15 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
-import { loginUser } from "../../store/slices/authSlice";
-import { useAuth } from "../../auth/authContext";
+import { loginUser } from "../../store/slices/authSlice"; 
+
+import { notifications } from "../../helpers/common";
+
+import "../../css/LoginForm.css";
 
 const Login = () => {
   const [username, setUsername] = useState("emilys");
-  const [password, setPassword] = useState("emilyspass");
-  const { setIsAuthenticated } = useAuth();
+  const [password, setPassword] = useState("emilyspass"); 
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,9 +19,9 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginUser({ username, password }))
       .then((res) => {
-        if (res.type === "auth/login/fulfilled") {
-          setIsAuthenticated(true);
+        if (res.type === "auth/login/fulfilled") { 
           navigate("/");
+          notifications("Your action was successful!", "success");
         }
       })
       .catch((error) => {

@@ -1,30 +1,49 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import Request from "../../helpers/request.service";
 
 // Async thunk for fetching users
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await axios.get("/api/users");
-  return response.data;
+  let param = { limit: 3, skip: 10, select: "id,firstName,age" };
+  let response = [];
+  await Request.get("/users", param)
+    .then((res) => {
+      response = res?.data?.users;
+    })
+    .catch((error) => {
+      console.log("Error in /users:", error);
+    });
+  return response;
 });
 
 // Async thunk for adding a user
 export const addUser = createAsyncThunk("users/addUser", async (newUser) => {
-  const response = await axios.post("/api/users", newUser);
-  return response.data;
+  try {
+    await Request.post("/users/add", JSON.stringify(newUser)).catch((error) => {
+      console.log("Error in addUser:", error);
+    });
+    return newUser; //response.data;
+  } catch (error) {
+    console.log("Error in addUser:", error?.response?.data);
+  }
 });
 
 // Async thunk for updating a user
-export const updateUser = createAsyncThunk(
-  "users/updateUser",
-  async ({ id, updatedUser }) => {
-    const response = await axios.put(`/api/users/${id}`, updatedUser);
-    return response.data;
-  }
-);
+export const updateUser = createAsyncThunk("users/updateUser", async (data) => {
+  await Request.put(`/users/${data.id}`, JSON.stringify(data.body)).catch(
+    (error) => {
+      console.log("Error in updateUser:", error);
+      data.body = [];
+    }
+  );
+  return data.body; //response.data;
+});
 
 // Async thunk for deleting a user
 export const deleteUser = createAsyncThunk("users/deleteUser", async (id) => {
-  await axios.delete(`/api/users/${id}`);
+  await Request.delete(`/users/${id}`).catch((error) => {
+    console.log("Error in deleteUser:", error);
+    id = 0;
+  });
   return id;
 });
 
@@ -40,13 +59,13 @@ const usersSlice = createSlice({
       state.push(action.payload);
     });
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      const index = state.findIndex((user) => user.id === action.payload.id);
+      const index = state.findIndex((user) => user.id === action?.payload?.id);
       if (index > -1) {
-        state[index] = action.payload;
+        state[index] = action?.payload;
       }
     });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
-      return state.filter((user) => user.id !== action.payload);
+      return state.filter((user) => user?.id !== action?.payload);
     });
   },
 });
