@@ -1,8 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useCallback } from "react";
-
-import { logout } from "../../store/slices/authSlice";
 
 import {
   fetchUsers,
@@ -14,22 +11,17 @@ import {
 import "./../../css/UserProfile.css";
 
 const UserProfile = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.auth.user);
   const users = useSelector((state) => state.users);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
   const handelDeleteUser = (id) => {
     dispatch(deleteUser(id));
   };
 
   const handleAddUser = () => {
     let body = {
-      firstName: "Muhammad",
-      lastName: "Ovi",
+      firstName: "Swapnil",
+      lastName: "N",
       age: 250,
       id: 209,
     };
@@ -58,8 +50,6 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="title">Welcome, {authUser?.firstName} </div>
-
       <div className="userList">
         <div className="center">Users List </div>
         <ul>
@@ -85,22 +75,9 @@ const UserProfile = () => {
         </ul>
       </div>
       <div className="homePageContainer">
-        <div>
-          <button
-            className="primaryButton"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Home
-          </button>
-          <button className="primaryButton" onClick={handleAddUser}>
-            Add User
-          </button>
-          <button className="logoutButton" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
+        <button className="primaryButton" onClick={handleAddUser}>
+          Add User
+        </button>
       </div>
     </>
   );

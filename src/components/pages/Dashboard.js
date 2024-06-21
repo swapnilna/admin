@@ -1,28 +1,16 @@
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react"; 
-
-import { logout } from "../../store/slices/authSlice";
+import React, { useEffect } from "react";
 
 import Request from "../../helpers/request.service";
 
-const Dashboard = () => { 
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
+const Dashboard = () => {
   useEffect(() => {
     getUser(2);
     getSelectedUser();
     getUsers();
   }, []);
 
-  const getUser = (id) => {
-    Request.get(`/users/${id}`)
+  const getUser = async (id) => {
+    await Request.get(`/users/${id}`)
       .then((response) => {
         console.log(`user id ${id}`, response.data);
       })
@@ -31,9 +19,9 @@ const Dashboard = () => {
       });
   };
 
-  const getSelectedUser = () => {
+  const getSelectedUser = async () => {
     let param = { limit: 5, skip: 10, select: "firstName,age" };
-    Request.get("/users", param)
+    await Request.get("/users", param)
       .then((response) => {
         console.log("selected user", response.data);
       })
@@ -42,8 +30,8 @@ const Dashboard = () => {
       });
   };
 
-  const getUsers = () => {
-    Request.get("/users")
+  const getUsers = async () => {
+    await Request.get("/users")
       .then((response) => {
         console.log("all users", response.data.users);
       })
@@ -55,21 +43,6 @@ const Dashboard = () => {
   return (
     <>
       <div className="title">Dashboard Page</div>
-      <div className="homePageContainer">
-        <div>
-          <button
-            className="primaryButton"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Home
-          </button>
-          <button className="logoutButton" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </div>
     </>
   );
 };

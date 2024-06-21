@@ -4,15 +4,11 @@ import React, { Suspense } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 
+import AdminLayout from "../src/layouts/Admin";
+import AuthLayout from "../src/layouts/Auth";
 import Loader from "../src/components/common/Loader";
-import PrivateRoute from "./auth/PrivateRoute";
 
-const Dashboard = React.lazy(() => import("./components/pages/Dashboard"));
-const Home = React.lazy(() => import("./components/pages/Home"));
-const Login = React.lazy(() => import("./components/pages/Login"));
 const NotFound = React.lazy(() => import("./components/pages/NotFound"));
-const Test = React.lazy(() => import("./components/pages/Test"));
-const UserProfile = React.lazy(() => import("./components/pages/UserProfile"));
 
 function App() {
   return (
@@ -21,36 +17,8 @@ function App() {
       <Router>
         <Suspense fallback={<Loader />}>
           <Routes>
-            <Route
-              exact
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              exact
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              exact
-              path="/user-profile"
-              element={
-                <PrivateRoute>
-                  <UserProfile />
-                </PrivateRoute>
-              }
-            />
-
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/test" element={<Test />} />
+            <Route path="/admin/*" element={<AdminLayout />} />
+            <Route path="/auth/*" element={<AuthLayout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
